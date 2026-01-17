@@ -127,73 +127,127 @@ p {
 }
 
 /* ============================================
-   Navigation
+   Sidebar Navigation
    ============================================ */
-.nav {
+.sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    width: 220px;
+    height: 100vh;
     z-index: 1000;
-    padding: var(--spacing-sm) 0;
-    background: rgba(10, 10, 11, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--transition-base);
-}
-
-.nav.scrolled {
-    border-bottom-color: var(--color-border);
-}
-
-.nav-content {
+    background: var(--color-bg-elevated);
+    border-right: 1px solid var(--color-border);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    flex-direction: column;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--spacing-lg) var(--spacing-md);
 }
 
 .logo {
     font-family: var(--font-display);
-    font-size: 1.75rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-accent);
+    margin-bottom: var(--spacing-xl);
+    display: block;
 }
 
 .nav-links {
     display: flex;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    flex: 1;
 }
 
 .nav-links a {
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-sm);
+    border-radius: 8px;
     color: var(--color-text-muted);
-    transition: color var(--transition-fast);
+    transition: all var(--transition-base);
     position: relative;
 }
 
-.nav-links a::after {
+.nav-links a::before {
     content: '';
     position: absolute;
-    bottom: -4px;
     left: 0;
-    width: 0;
-    height: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
     background: var(--color-accent);
-    transition: width var(--transition-base);
+    border-radius: 0 2px 2px 0;
+    transition: height var(--transition-base);
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--color-text);
+    background: rgba(224, 124, 76, 0.1);
 }
 
-.nav-links a:hover::after {
-    width: 100%;
+.nav-links a:hover::before,
+.nav-links a.active::before {
+    height: 60%;
+}
+
+.nav-number {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    opacity: 0.7;
+}
+
+.nav-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.social-links {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+}
+
+.social-links a:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 220px;
+    min-height: 100vh;
 }
 
 /* ============================================
@@ -778,6 +832,43 @@ p {
 /* ============================================
    Responsive Design
    ============================================ */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 80px;
+    }
+    
+    .sidebar-content {
+        padding: var(--spacing-md) var(--spacing-sm);
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .nav-links {
+        align-items: center;
+    }
+    
+    .nav-links a {
+        justify-content: center;
+        padding: var(--spacing-sm);
+    }
+    
+    .nav-text {
+        display: none;
+    }
+    
+    .nav-number {
+        font-size: 0.85rem;
+    }
+    
+    .main-content {
+        margin-left: 80px;
+    }
+}
+
 @media (max-width: 768px) {
     :root {
         --spacing-lg: 3rem;
@@ -788,8 +879,67 @@ p {
         font-size: 16px;
     }
     
-    .nav-links {
+    .sidebar {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-top: 1px solid var(--color-border);
+        background: rgba(20, 20, 22, 0.95);
+        backdrop-filter: blur(20px);
+    }
+    
+    .sidebar-content {
+        flex-direction: row;
+        padding: var(--spacing-sm) var(--spacing-md);
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
         display: none;
+    }
+    
+    .nav-links {
+        flex-direction: row;
+        flex: 1;
+        justify-content: space-around;
+        gap: 0;
+    }
+    
+    .nav-links a {
+        flex-direction: column;
+        gap: 4px;
+        padding: var(--spacing-xs);
+        background: none !important;
+    }
+    
+    .nav-links a::before {
+        display: none;
+    }
+    
+    .nav-number {
+        font-size: 0.7rem;
+    }
+    
+    .nav-text {
+        display: block;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .sidebar-footer {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding-bottom: 80px;
     }
     
     .about-content {
@@ -862,11 +1012,15 @@ p {
    ============================================ */
 @media print {
     .grain,
-    .nav,
+    .sidebar,
     .hero-decoration,
     .hero-cta,
     .btn {
         display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
     }
     
     body {
@@ -885,4 +1039,6 @@ p {
         padding: 2rem 0;
     }
 }
+
+
 

@@ -3,30 +3,39 @@
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    initNavScroll();
+    initActiveNavLink();
     initSectionAnimations();
     initSmoothScroll();
 });
 
 // ============================================
-// Navigation scroll effect
+// Active navigation link based on scroll
 // ============================================
-function initNavScroll() {
-    const nav = document.querySelector('.nav');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
+function initActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    function updateActiveLink() {
+        const scrollPos = window.scrollY + 200;
         
-        // Add scrolled class when page is scrolled
-        if (currentScroll > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-        
-        lastScroll = currentScroll;
-    });
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink(); // Initial call
 }
 
 // ============================================
@@ -128,4 +137,6 @@ function initParallax() {
 
 // Uncomment to enable:
 // document.addEventListener('DOMContentLoaded', initParallax);
+
+
 
